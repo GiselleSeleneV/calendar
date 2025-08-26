@@ -2,6 +2,7 @@
   min-height: 100vh;
   display: flex;
   align-items: center;  
+  justify-content: center;
 }
 .login-container .row {
   width: 100%; 
@@ -35,6 +36,35 @@
     padding: 1.5%;
     border: none;
     cursor: pointer;
+}
+.btnSubmit-disabled-login {
+    width: 50%;
+    border-radius: 1rem;
+    margin-top: 10px;
+    padding: 1.5%;
+    border: none;
+    cursor: not-allowed;
+    color: #9ca3af;          
+    background-color: #e5e7eb; 
+    border-color: #d1d5db;
+}
+.btnSubmit-disabled-register {
+    width: 50%;
+    border-radius: 1rem;
+    margin-top: 10px;
+    padding: 1.5%;
+    border: none;
+    cursor: not-allowed;
+    color: #6b7280;         
+    background-color: #1f2937;
+    border-color: #374151;   
+}
+.validation-message-register {
+  font-size: 0.8rem;       
+  color: #8a8e97;          
+  font-weight: 400;       
+  margin-top: 2px;
+  display: block;          
 }
 .login-form-1 .btnSubmit{
     color: #fff;
