@@ -38,6 +38,14 @@
     padding: 10px;
 }
 
+.label-bold-medium {
+  font-weight: 500; 
+}
+.input-disabled {
+  cursor: not-allowed;
+  color: #9ca3af;  
+}
+
 .btn-outline-primary {
   background-color: white;
   color: #0F172A;
@@ -107,3 +115,25 @@
   cursor: pointer;
 }
 
+.btn-save {
+    border: 1px solid #0F172A;
+    border-radius: 5px;
+    cursor: not-allowed;
+    color: #0F172A;      
+    font-weight: 400;    
+    background-color: white; 
+    border-color: #0F172A;
+    width: 108px;
+    padding: 6px 12px;
+}
+.btn-save-disabled {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    cursor: not-allowed;
+    color: #9ca3af;          
+    background-color: #e5e7eb; 
+    font-weight: 400;
+    border-color: #d1d5db;
+    width: 108px;
+    padding: 6px 12px;
+}
