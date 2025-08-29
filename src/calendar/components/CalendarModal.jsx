@@ -87,7 +87,7 @@ export const CalendarModal = () => {
     }
 
     const isMyEvent = useMemo(() => {
-        if (!activeEvent) return true; // por defecto si no hay evento activo
+        if (!activeEvent) return true;
         return (user.uid === activeEvent.user._id) || (user.uid === activeEvent.user.uid);
     }, [activeEvent, user]);
 
