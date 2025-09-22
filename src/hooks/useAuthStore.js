@@ -20,7 +20,7 @@ export const useAuthStore = () => {
             dispatch(onLogin({ name: data.name, uid: data.uid }));
 
         } catch (error) {
-            dispatch(onLogout('Usuario o contraseña incorrectos. Intenta de nuevo o restablece tu contraseña.'));
+            dispatch(onLogout('Credenciales inválidas. Verifica tus datos e inténtalo nuevamente.'));
 
             setTimeout(() => {
                 dispatch(clearErrorMessage());
