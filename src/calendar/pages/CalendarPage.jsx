@@ -4,6 +4,7 @@ import { Calendar } from 'react-big-calendar';
 import { CalendarEventBox, CalendarModal, FabAddNew, FabDelete, Navbar } from "../";
 import { localizer, getMessagesEs } from '../../helpers'
 import { useAuthStore, useCalendarStore, useUiStore } from '../../hooks';
+import './calendarPage.css';
 
 
 export const CalendarPage = () => {
@@ -17,10 +18,12 @@ export const CalendarPage = () => {
         const isMyEvent = (user.uid === event.user._id) || (user.uid === event.user.uid);
 
         const style = {
-            backgroundColor: isMyEvent ? '#0F172A' : '#d1d5db',
-            border: '1px solid #9ca3af',
-            opacity: '0.8px',
+            backgroundColor: isMyEvent ? '#0F172A' : '#94a3b8',
+            borderRadius: '8px',
+            opacity: 0.95,
             color: 'white',
+            border: '0px',
+            display: 'block',
         };
 
         return {
@@ -45,30 +48,34 @@ export const CalendarPage = () => {
     }, []);
 
     return (
-        <>
+        <div className="calendar-page">
             <Navbar />
 
-            <Calendar
-                culture='es'
-                localizer={localizer}
-                events={events}
-                defaultView={lastView}
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: 'calc(100vh - 80px)' }}
-                messages={getMessagesEs()}
-                eventPropGetter={eventStyleGetter}
-                components={{
-                    event: CalendarEventBox
-                }}
-                onDoubleClickEvent={onDoubleClick}
-                onSelectEvent={onSelect}
-                onView={onViewChanged}
-            />
+            <div className="calendar-page__workspace">
+                <div className="calendar-page__surface">
+                    <Calendar
+                        culture='es'
+                        localizer={localizer}
+                        events={events}
+                        defaultView={lastView}
+                        startAccessor="start"
+                        endAccessor="end"
+                        style={{ height: '100%' }}
+                        messages={getMessagesEs()}
+                        eventPropGetter={eventStyleGetter}
+                        components={{
+                            event: CalendarEventBox
+                        }}
+                        onDoubleClickEvent={onDoubleClick}
+                        onSelectEvent={onSelect}
+                        onView={onViewChanged}
+                    />
+                </div>
+            </div>
 
             <CalendarModal />
             <FabAddNew />
             <FabDelete />
-        </>
+        </div>
     )
 }

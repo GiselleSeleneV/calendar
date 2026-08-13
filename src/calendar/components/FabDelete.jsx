@@ -8,12 +8,16 @@ export const FabDelete = () => {
         startDeletingEvent();
     }
 
+    const isVisible = hasEventSelected && !isDateModalOpen;
+
     return (
         <button
             onClick={handleDelete}
-            className="btn btn-danger fab-danger"
+            className={`fab fab-danger ${isVisible ? 'is-visible' : ''}`}
+            type="button"
+            aria-label="Eliminar evento"
             style={{
-                display: hasEventSelected && !isDateModalOpen ? '' : 'none'
+                display: isVisible ? 'flex' : 'none'
             }}
         >
             <i className="fas fa-trash-alt"></i>

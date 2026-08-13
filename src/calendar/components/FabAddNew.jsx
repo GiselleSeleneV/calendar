@@ -4,7 +4,7 @@ import { addHours } from "date-fns";
 export const FabAddNew = () => {
     const { openDateModal } = useUiStore();
     const { setActiveEvent } = useCalendarStore();
-    const { user } = useAuthStore();   // ✅ aquí tomamos el usuario logueado
+    const { user } = useAuthStore();
 
     const handleClickNew = () => {
         setActiveEvent({
@@ -14,7 +14,7 @@ export const FabAddNew = () => {
             end: addHours(new Date(), 2),
             bgColor: '#fafafa',
             user: {
-                _id: user.uid,   // ✅ usamos el id real del usuario
+                _id: user.uid,
                 name: user.name
             }
         });
@@ -24,7 +24,9 @@ export const FabAddNew = () => {
     return (
         <button
             onClick={handleClickNew}
-            className="btn btn-primary fab"
+            className="fab fab-add"
+            type="button"
+            aria-label="Crear nuevo evento"
         >
             <i className="fas fa-plus"></i>
         </button>

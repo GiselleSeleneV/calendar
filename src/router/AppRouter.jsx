@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { LoginPage } from "../auth"
 import { CalendarPage } from "../calendar"
+import { LoadingScreen } from "../components"
 import { useAuthStore } from "../hooks"
 import { useEffect } from "react"
 
@@ -15,9 +16,7 @@ export const AppRouter = () => {
     }, []);
 
     if (status === 'checking') {
-        return (
-            <h3>Cargando...</h3>
-        )
+        return <LoadingScreen />
     };
 
     return (

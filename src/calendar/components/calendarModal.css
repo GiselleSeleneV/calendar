@@ -1,0 +1,227 @@
+.calendar-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(4px);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.calendar-modal {
+  position: relative !important;
+  inset: unset !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  width: min(520px, calc(100vw - 2rem)) !important;
+  max-height: min(90vh, 680px) !important;
+  overflow: auto !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.35) !important;
+  border-radius: 18px !important;
+  outline: none !important;
+  padding: 1.35rem 1.35rem 1.2rem !important;
+  color: #0F172A;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 24px 48px rgba(15, 23, 42, 0.22) !important;
+  animation: calendar-modal-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.calendar-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.15rem;
+}
+
+.calendar-modal__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.calendar-modal__title {
+  margin: 0.2rem 0 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0F172A;
+}
+
+.calendar-modal__close {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.calendar-modal__close:hover {
+  background: #e2e8f0;
+  color: #0F172A;
+}
+
+.calendar-modal__close:active {
+  transform: scale(0.96);
+}
+
+.calendar-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.calendar-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.calendar-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.calendar-modal__field > span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.calendar-modal__input {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #0F172A;
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.calendar-modal__input:focus {
+  border-color: #0F172A;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+}
+
+.calendar-modal__input.is-disabled,
+.calendar-modal__input:disabled {
+  cursor: not-allowed;
+  color: #94a3b8;
+  background: #f1f5f9;
+}
+
+.calendar-modal__input.is-invalid {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.calendar-modal__textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.45;
+}
+
+.calendar-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  margin-top: 0.35rem;
+}
+
+.calendar-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+}
+
+.calendar-modal__btn--ghost {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.calendar-modal__btn--ghost:hover {
+  background: #e2e8f0;
+  color: #0F172A;
+}
+
+.calendar-modal__btn--primary {
+  background: #0F172A;
+  color: #fff;
+  min-width: 120px;
+}
+
+.calendar-modal__btn--primary:hover:not(.is-disabled):not(:disabled) {
+  background: #1e293b;
+}
+
+.calendar-modal__btn:active:not(.is-disabled):not(:disabled) {
+  transform: scale(0.98);
+}
+
+.calendar-modal__btn--primary.is-disabled,
+.calendar-modal__btn--primary:disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+  display: block;
+}
+
+@keyframes calendar-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .calendar-modal__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-modal {
+    padding: 1.15rem 1rem 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-modal {
+    animation: none !important;
+  }
+}

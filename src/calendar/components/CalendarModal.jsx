@@ -7,17 +7,36 @@ import { es } from 'date-fns/locale/es';
 import 'sweetalert2/dist/sweetalert2.min.css'
 import Swal from "sweetalert2";
 import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
+import './calendarModal.css';
 
 registerLocale('es', es)
 
 const customStyles = {
     content: {
-        top: '50%',
-        left: '50%',
+        inset: 'unset',
+        top: 'auto',
+        left: 'auto',
         right: 'auto',
         bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
+        margin: '0',
+        position: 'relative',
+        border: '1px solid rgba(148, 163, 184, 0.35)',
+        background: '#ffffff',
+        overflow: 'auto',
+        borderRadius: '18px',
+        padding: '1.35rem 1.35rem 1.2rem',
+        maxWidth: '520px',
+        width: 'calc(100vw - 2rem)',
+        maxHeight: 'min(90vh, 680px)',
+        boxShadow: '0 24px 48px rgba(15, 23, 42, 0.22)',
+        outline: 'none',
+    },
+    overlay: {
+        backgroundColor: 'rgba(15, 23, 42, 0.45)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 999,
     },
 };
 
@@ -47,6 +66,16 @@ export const CalendarModal = () => {
 
     }, [formValues.title, formSubmitted])
 
+    const isMyEvent = useMemo(() => {
+        if (!activeEvent) return true;
+        return isMyEventSafe(activeEvent, user);
+    }, [activeEvent, user]);
+
+    const modalTitle = useMemo(() => {
+        if (!activeEvent?.id && !activeEvent?._id) return 'Nuevo evento';
+        return isMyEvent ? 'Editar evento' : 'Detalle del evento';
+    }, [activeEvent, isMyEvent]);
+
     useEffect(() => {
         if (activeEvent !== null) {
             setFormValues({ ...activeEvent })
@@ -74,7 +103,13 @@ export const CalendarModal = () => {
         const difference = differenceInSeconds(formValues.end, formValues.start);
 
         if (isNaN(difference) || difference <= 0) {
-            Swal.fire('Las fechas ingresadas no son válidas.', 'Por favor, verifíquelas.', 'error')
+            Swal.fire({
+                icon: 'error',
+                title: 'Fechas no válidas',
+                text: 'Por favor, verifícalas e inténtalo de nuevo.',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#0F172A',
+            });
 
             return;
         };
@@ -86,90 +121,110 @@ export const CalendarModal = () => {
         setFormSubmitted(false);
     }
 
-    const isMyEvent = useMemo(() => {
-        if (!activeEvent) return true;
-        return (user.uid === activeEvent.user._id) || (user.uid === activeEvent.user.uid);
-    }, [activeEvent, user]);
-
     return (
         <Modal
             isOpen={isDateModalOpen}
             onRequestClose={closeDateModal}
             style={customStyles}
-            className='modal'
-            overlayClassName='modal-fondo'
-            closeTimeoutMS={200}
+            className='calendar-modal'
+            overlayClassName='calendar-modal-overlay'
+            closeTimeoutMS={220}
         >
-            <h1> Nuevo evento </h1>
-            <hr />
-            <form className="container" onSubmit={onSubmit}>
+            <div className="calendar-modal__header">
+                <div>
+                    <p className="calendar-modal__eyebrow">Calendar</p>
+                    <h2 className="calendar-modal__title">{modalTitle}</h2>
+                </div>
+                <button
+                    type="button"
+                    className="calendar-modal__close"
+                    onClick={closeDateModal}
+                    aria-label="Cerrar"
+                >
+                    <i className="fas fa-times"></i>
+                </button>
+            </div>
 
-                <div className="form-group mb-2 d-flex flex-column">
-                    <label className="label-bold-medium">Fecha y hora inicio</label>
-                    <DatePicker
-                        selected={formValues.start}
-                        onChange={(event) => onDateChanged(event, 'start')}
-                        className={`${!isMyEvent && 'input-disabled'} form-control`}
-                        dateFormat='Pp'
-                        showTimeSelect
-                        locale='es'
-                        disabled={!isMyEvent}
-                    />
+            <form className="calendar-modal__form" onSubmit={onSubmit}>
+                <div className="calendar-modal__grid">
+                    <label className="calendar-modal__field">
+                        <span>Fecha y hora inicio</span>
+                        <DatePicker
+                            selected={formValues.start}
+                            onChange={(event) => onDateChanged(event, 'start')}
+                            className={`calendar-modal__input ${!isMyEvent ? 'is-disabled' : ''}`}
+                            dateFormat='Pp'
+                            showTimeSelect
+                            locale='es'
+                            disabled={!isMyEvent}
+                        />
+                    </label>
+
+                    <label className="calendar-modal__field">
+                        <span>Fecha y hora fin</span>
+                        <DatePicker
+                            minDate={formValues.start}
+                            selected={formValues.end}
+                            onChange={(event) => onDateChanged(event, 'end')}
+                            className={`calendar-modal__input ${!isMyEvent ? 'is-disabled' : ''}`}
+                            dateFormat='Pp'
+                            showTimeSelect
+                            locale='es'
+                            timeCaption='Hora'
+                            disabled={!isMyEvent}
+                        />
+                    </label>
                 </div>
 
-                <div className="form-group mb-4 d-flex flex-column ">
-                    <label className="label-bold-medium">Fecha y hora fin</label>
-                    <DatePicker
-                        minDate={formValues.start}
-                        selected={formValues.end}
-                        onChange={(event) => onDateChanged(event, 'end')}
-                        className={`${!isMyEvent && 'input-disabled'} form-control`}
-                        dateFormat='Pp'
-                        showTimeSelect
-                        locale='es'
-                        timeCaption='Hora'
-                        disabled={!isMyEvent}
-                    />
-                </div>
-                <hr />
-                <div className="form-group mb-3">
-                    <label className="label-bold-medium">Título y notas</label>
+                <label className="calendar-modal__field">
+                    <span>Título</span>
                     <input
                         type="text"
-                        className={`${titleClass} ${!isMyEvent && 'input-disabled'} form-control} form-control `} placeholder="Título del evento"
+                        className={`calendar-modal__input ${titleClass} ${!isMyEvent ? 'is-disabled' : ''}`}
+                        placeholder="Título del evento"
                         name="title"
                         autoComplete="off"
                         value={formValues.title}
                         onChange={onInputChanged}
                         disabled={!isMyEvent}
                     />
-                    <small id="emailHelp" className="form-text text-muted ml-2">Título</small>
-                </div>
+                </label>
 
-                <div className="form-group mb-3">
+                <label className="calendar-modal__field">
+                    <span>Notas</span>
                     <textarea
-                        type="text"
-                        className={`${!isMyEvent && 'input-disabled'} form-control`}
-                        placeholder="Notas"
-                        rows="5"
+                        className={`calendar-modal__input calendar-modal__textarea ${!isMyEvent ? 'is-disabled' : ''}`}
+                        placeholder="Información adicional"
+                        rows="4"
                         name="notes"
                         value={formValues.notes}
                         onChange={onInputChanged}
                         disabled={!isMyEvent}
                     ></textarea>
-                    <small id="emailHelp" className="form-text text-muted ml-2">Información adicional</small>
+                </label>
+
+                <div className="calendar-modal__actions">
+                    <button
+                        type="button"
+                        className="calendar-modal__btn calendar-modal__btn--ghost"
+                        onClick={closeDateModal}
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        type="submit"
+                        className={`calendar-modal__btn calendar-modal__btn--primary ${!isMyEvent ? 'is-disabled' : ''}`}
+                        disabled={!isMyEvent}
+                    >
+                        <i className="far fa-save"></i>
+                        <span>Guardar</span>
+                    </button>
                 </div>
-
-                <button
-                    type="submit"
-                    className={`${!isMyEvent ? 'btn-save-disabled' : 'btn-save'}`}
-                    disabled={!isMyEvent}
-                >
-                    <i className="far fa-save"></i>
-                    <span> Guardar</span>
-                </button>
-
             </form>
         </Modal>
     )
+}
+
+function isMyEventSafe(activeEvent, user) {
+    return (user.uid === activeEvent.user._id) || (user.uid === activeEvent.user.uid);
 }

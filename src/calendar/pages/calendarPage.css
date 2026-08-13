@@ -1,0 +1,187 @@
+.calendar-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 10% 0%, rgba(15, 23, 42, 0.05) 0%, transparent 40%),
+    linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+.calendar-page__workspace {
+  padding: 0.85rem 1rem 1.25rem;
+  animation: calendar-workspace-enter 0.55s ease-out 0.08s both;
+}
+
+.calendar-page__surface {
+  height: calc(100vh - 96px);
+  min-height: 480px;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 14px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.calendar-page__surface .rbc-calendar {
+  height: 100%;
+  font-family: inherit;
+}
+
+.calendar-page__surface .rbc-toolbar {
+  padding: 0.85rem 1rem 0.65rem;
+  margin-bottom: 0;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.calendar-page__surface .rbc-toolbar .rbc-toolbar-label {
+  font-weight: 650;
+  color: #0F172A;
+  letter-spacing: -0.02em;
+  font-size: 1.05rem;
+}
+
+.calendar-page__surface .rbc-btn-group button {
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #475569;
+  border-radius: 10px !important;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  box-shadow: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.calendar-page__surface .rbc-btn-group button + button {
+  margin-left: 0.35rem;
+}
+
+.calendar-page__surface .rbc-btn-group button:hover,
+.calendar-page__surface .rbc-btn-group button:focus {
+  background: #f1f5f9;
+  color: #0F172A;
+  border-color: #cbd5e1;
+}
+
+.calendar-page__surface .rbc-btn-group button.rbc-active,
+.calendar-page__surface .rbc-btn-group button.rbc-active:hover {
+  background: #0F172A;
+  border-color: #0F172A;
+  color: #fff;
+  box-shadow: none;
+}
+
+.calendar-page__surface .rbc-header {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.65rem 0.35rem;
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.calendar-page__surface .rbc-month-view,
+.calendar-page__surface .rbc-time-view,
+.calendar-page__surface .rbc-agenda-view {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+}
+
+.calendar-page__surface .rbc-day-bg + .rbc-day-bg,
+.calendar-page__surface .rbc-month-row + .rbc-month-row,
+.calendar-page__surface .rbc-timeslot-group,
+.calendar-page__surface .rbc-time-content > * + * > *,
+.calendar-page__surface .rbc-time-header-content {
+  border-color: #eef2f7;
+}
+
+.calendar-page__surface .rbc-off-range-bg {
+  background: #f8fafc;
+}
+
+.calendar-page__surface .rbc-today {
+  background-color: rgba(15, 23, 42, 0.04);
+}
+
+.calendar-page__surface .rbc-event {
+  border-radius: 8px !important;
+  border: none !important;
+  padding: 2px 6px;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.calendar-page__surface .rbc-event:focus,
+.calendar-page__surface .rbc-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18);
+}
+
+.calendar-page__surface .rbc-selected {
+  outline: 2px solid rgba(15, 23, 42, 0.35);
+  outline-offset: 1px;
+}
+
+.calendar-page__surface .rbc-show-more {
+  color: #0F172A;
+  font-weight: 600;
+  background: transparent;
+}
+
+.calendar-event {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.calendar-event__title {
+  font-size: 0.78rem;
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar-event__user {
+  font-size: 0.68rem;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes calendar-workspace-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-page__workspace {
+    padding: 0.65rem 0.65rem 1rem;
+  }
+
+  .calendar-page__surface {
+    height: calc(100vh - 88px);
+    border-radius: 14px;
+  }
+
+  .calendar-page__surface .rbc-toolbar {
+    padding: 0.7rem 0.7rem 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-page__workspace,
+  .custom-navbar {
+    animation: none !important;
+  }
+}
